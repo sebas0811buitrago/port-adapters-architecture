@@ -1,3 +1,3 @@
-import { init } from "../src/modules/ui";
+import { init } from "../src/modules/search-books/ui";
 
 init();
