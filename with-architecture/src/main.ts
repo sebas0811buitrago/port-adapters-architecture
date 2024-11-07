@@ -1,5 +1,5 @@
+import { searchBooks } from "./ui/searchBooks";
 import "./style.css";
-import { searchBooks } from "./searchBooks";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div class="container">
