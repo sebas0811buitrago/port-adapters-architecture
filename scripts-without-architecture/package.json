@@ -1,0 +1,20 @@
+{
+  "name": "scripts-without-architecture",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "search-books": "ts-node search-books/search-books.ts",
+    "add-numbers": "ts-node add-numbers/add-numbers.ts",
+    "bmi": "ts-node bmi/bmi.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
