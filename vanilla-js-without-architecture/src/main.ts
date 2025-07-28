@@ -1,8 +1,9 @@
 import "./style.css";
-import { searchBooks } from "./searchBooks";
+import { download, searchBooks } from "./searchBooks";
 
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div class="container">
+  <button id="download">download</button>
     <h1>Book Searcher</h1>
     <div class="search-box">
       <input type="text" id="search" placeholder="Search for books..." />
@@ -13,3 +14,5 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 `;
 
 document.getElementById("searchButton")!.addEventListener("click", searchBooks);
+
+document.getElementById("download")!.addEventListener("click", download);

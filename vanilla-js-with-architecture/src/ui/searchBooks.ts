@@ -1,5 +1,6 @@
 import { Book, searchSchema } from "../domain/Book";
 import { getBooksOption1 } from "../service/getBooksOption1";
+import { getBooksOption2 } from "../service/getBooksOption2";
 
 function displayBooks(books: Book[] = []) {
   const resultsContainer = document.getElementById("results") as HTMLDivElement;
@@ -46,7 +47,7 @@ export async function searchBooks() {
     return;
   }
   try {
-    const books = await getBooksOption1(query);
+    const books = await getBooksOption2(query);
     displayBooks(books);
   } catch (error) {
     alert("An unexpected error ocurred");

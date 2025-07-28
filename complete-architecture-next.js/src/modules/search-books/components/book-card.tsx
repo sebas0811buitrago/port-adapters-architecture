@@ -6,7 +6,7 @@ interface BookCardProps {
 
 const BookCard = ({ book: { title, authors, description } }: BookCardProps) => {
   return (
-    <div className="book bg-white border border-gray-200 p-4 rounded-md shadow-sm mb-4 @lg:bg-blue-50 @xl:bg-blue-100">
+    <div className="book bg-white border border-gray-200 p-4 rounded-md shadow-sm mb-4 @lg:bg-blue-50 @xl:bg-blue-100 ">
       <h3 className="text-base md:text-lg lg:text-xl font-semibold text-gray-800 mb-2">
         {title ?? "No title"}
       </h3>
