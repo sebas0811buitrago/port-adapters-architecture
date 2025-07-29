@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "search-books": "ts-node search-books/search-books.ts",
+    "search-books": "ts-node search-books/cli/search-books.ts",
     "add-numbers": "ts-node add-numbers/add-numbers.ts",
     "bmi": "ts-node bmi/bmi.ts"
   },

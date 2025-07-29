@@ -1,3 +1,5 @@
+import { GetBooksPort } from "../domain/book";
+
 // Option 1
 const API_URL_1 = "https://www.googleapis.com/books/v1/volumes?q=";
 
@@ -20,3 +22,13 @@ const getBooksGoogleService = async ({ query }: { query: string }) => {
 };
 
 // implement adapter pattern
+
+export const getBooksOption1: GetBooksPort = async (searchTerm) => {
+  const response = await getBooksGoogleService({ query: searchTerm });
+
+  return response.items.map(({ volumeInfo }) => ({
+    title: volumeInfo.title,
+    authors: volumeInfo.authors ?? [],
+    description: volumeInfo.description ?? "",
+  }));
+};

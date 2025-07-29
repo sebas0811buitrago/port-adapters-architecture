@@ -1,3 +1,5 @@
+import { GetBooksPort } from "../domain/book";
+
 const API_URL_2 = "https://openlibrary.org/search.json?q=";
 
 interface GetBooksOpenLibraryAPisResponse {
@@ -14,4 +16,16 @@ const getBooksOpenLibraryService = async ({ query }: { query: string }) => {
   );
 
   return response as GetBooksOpenLibraryAPisResponse;
+};
+
+export const getBooksOption2: GetBooksPort = async (searchTerm) => {
+  const response = await getBooksOpenLibraryService({ query: searchTerm });
+
+  return response.docs.map(({ title, author_name, first_sentence }) => ({
+    title,
+    authors: author_name ?? [],
+    description: Array.isArray(first_sentence)
+      ? first_sentence.join(" ")
+      : first_sentence ?? "",
+  }));
 };

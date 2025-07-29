@@ -31,7 +31,7 @@ function readExistingRecords(): BMIFileRecord[] {
 
     const fileContent = fs.readFileSync(RECORDS_FILE_PATH, "utf-8");
     const data = JSON.parse(fileContent);
-    return data.records || [];
+    return data;
   } catch (error) {
     console.error("Error reading existing records:", error);
     return [];

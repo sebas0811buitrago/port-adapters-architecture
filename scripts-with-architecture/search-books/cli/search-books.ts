@@ -1,4 +1,6 @@
 import * as readline from "readline";
+import { displayBooks } from "./display-books";
+import { getBooksOption2 } from "../service/get-books-option-2";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -28,7 +30,7 @@ async function main(): Promise<void> {
 
     console.log(`\n🔎 Searching for: "${searchQuery}"...`);
 
-    const books = await searchBooks(searchQuery);
+    const books = await getBooksOption2(searchQuery);
     displayBooks(books);
 
     rl.close();
