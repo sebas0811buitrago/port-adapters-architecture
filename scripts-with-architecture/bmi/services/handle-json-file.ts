@@ -2,11 +2,11 @@ import fs from "fs";
 import path from "path";
 
 export interface BMIFileRecord {
-  id: string;
-  weight: number;
-  height: number;
-  bmi: number;
-  timestamp: string;
+  Id: string;
+  Weight: number;
+  Height: number;
+  Bmi: number;
+  Timestamp: string;
 }
 
 const RECORDS_FILE_PATH = path.join(__dirname, "bmi-records.json");
@@ -23,10 +23,10 @@ function generateId(): string {
  * Reads existing BMI records from file
  * @returns BMIFileRecord[] - Array of existing records
  */
-function readExistingRecords(): BMIFileRecord[] {
+function readExistingRecords(): { records: BMIFileRecord[] } {
   try {
     if (!fs.existsSync(RECORDS_FILE_PATH)) {
-      return [];
+      return { records: [] };
     }
 
     const fileContent = fs.readFileSync(RECORDS_FILE_PATH, "utf-8");
@@ -34,7 +34,7 @@ function readExistingRecords(): BMIFileRecord[] {
     return data;
   } catch (error) {
     console.error("Error reading existing records:", error);
-    return [];
+    return { records: [] };
   }
 }
 
@@ -44,21 +44,21 @@ function readExistingRecords(): BMIFileRecord[] {
  * @returns BMIFileRecord - Saved record with ID and timestamp
  */
 export function saveBMIRecord(record: {
-  weight: number;
-  height: number;
-  bmi: number;
+  Weight: number;
+  Height: number;
+  Bmi: number;
 }): BMIFileRecord {
   const existingRecords = readExistingRecords();
 
   const newRecord: BMIFileRecord = {
-    id: generateId(),
-    weight: record.weight,
-    height: record.height,
-    bmi: record.bmi,
-    timestamp: new Date().toISOString(),
+    Id: generateId(),
+    Weight: record.Weight,
+    Height: record.Height,
+    Bmi: record.Bmi,
+    Timestamp: new Date().toISOString(),
   };
 
-  const updatedRecords = [...existingRecords, newRecord];
+  const updatedRecords = [...existingRecords.records, newRecord];
 
   try {
     // Ensure directory exists
@@ -84,9 +84,8 @@ export function saveBMIRecord(record: {
  * Gets BMI records sorted by timestamp (newest first)
  * @returns BMIFileRecord[] - Array of records sorted by timestamp
  */
-export function getAllBMIRecords(): BMIFileRecord[] {
-  const records = getAllBMIRecords();
-  return records.sort(
-    (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-  );
+export function getAllBMIRecords(): { records: BMIFileRecord[] } {
+  const records = readExistingRecords();
+
+  return records;
 }
