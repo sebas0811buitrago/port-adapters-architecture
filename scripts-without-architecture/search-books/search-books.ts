@@ -14,29 +14,29 @@
 
 // SECOND OPTION ==================================
 
-// interface GetBooksOpenLibraryAPisResponse {
-//   docs: {
-//     title: string;
-//     author_name?: string[];
-//     first_sentence?: string[];
-//   }[];
-// }
-
-// const API_URL_2 = "https://openlibrary.org/search.json?q=";
-
-// CODE ===========================================
-
-interface GetBooksGoogleAPIsResponse {
-  items: {
-    volumeInfo: {
-      title: string;
-      authors?: string[];
-      description?: string;
-    };
+interface GetBooksOpenLibraryAPisResponse {
+  docs: {
+    title: string;
+    author_name?: string[];
+    first_sentence?: string[];
   }[];
 }
 
-const API_URL = "https://www.googleapis.com/books/v1/volumes?q=";
+const API_URL_2 = "https://openlibrary.org/search.json?q=";
+
+// CODE ===========================================
+
+// interface GetBooksGoogleAPIsResponse {
+//   items: {
+//     volumeInfo: {
+//       title: string;
+//       authors?: string[];
+//       description?: string;
+//     };
+//   }[];
+// }
+
+// const API_URL = "https://www.googleapis.com/books/v1/volumes?q=";
 
 import * as readline from "readline";
 
