@@ -1,44 +1,29 @@
+import * as readline from "readline";
+
 // FIRST OPTION ===================================
+type GetBooksGoogleAPisResponse = {
+  items: {
+    volumeInfo: {
+      title: string;
+      authors?: string[];
+      description?: string;
+    };
+  }[];
+};
 
-// interface GetBooksGoogleAPisResponse {
-//   items: {
-//     volumeInfo: {
-//       title: string;
-//       authors?: string[];
-//       description?: string;
-//     };
-//   }[];
-// }
-
-// const API_URL_1 = "https://www.googleapis.com/books/v1/volumes?q=";
+const API_URL_1 = "https://www.googleapis.com/books/v1/volumes?q=";
 
 // SECOND OPTION ==================================
 
-interface GetBooksOpenLibraryAPisResponse {
-  docs: {
-    title: string;
-    author_name?: string[];
-    first_sentence?: string[];
-  }[];
-}
-
-const API_URL_2 = "https://openlibrary.org/search.json?q=";
-
-// CODE ===========================================
-
-// interface GetBooksGoogleAPIsResponse {
-//   items: {
-//     volumeInfo: {
-//       title: string;
-//       authors?: string[];
-//       description?: string;
-//     };
+// interface GetBooksOpenLibraryAPisResponse {
+//   docs: {
+//     title: string;
+//     author_name?: string[];
+//     first_sentence?: string[];
 //   }[];
 // }
 
-// const API_URL = "https://www.googleapis.com/books/v1/volumes?q=";
-
-import * as readline from "readline";
+// const API_URL_2 = "https://openlibrary.org/search.json?q=";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -53,22 +38,22 @@ function askQuestion(question: string): Promise<string> {
   });
 }
 
-async function searchBooks(query: string): Promise<GetBooksGoogleAPIsResponse> {
+async function searchBooks(query: string): Promise<GetBooksGoogleAPisResponse> {
   try {
-    const response = await fetch(`${API_URL}${encodeURIComponent(query)}`);
+    const response = await fetch(`${API_URL_1}${encodeURIComponent(query)}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    return data as GetBooksGoogleAPIsResponse;
+    return data as GetBooksGoogleAPisResponse;
   } catch (error) {
     throw new Error(`Failed to fetch books: ${error}`);
   }
 }
 
-function displayBooks(books: GetBooksGoogleAPIsResponse): void {
+function displayBooks(books: GetBooksGoogleAPisResponse): void {
   if (!books.items || books.items.length === 0) {
     console.log("\n❌ No books found for your search query.");
     return;
