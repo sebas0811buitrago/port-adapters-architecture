@@ -24,8 +24,6 @@ export const getBooksOption2: GetBooksPort = async (searchTerm) => {
   return response.docs.map(({ title, author_name, first_sentence }) => ({
     title,
     authors: author_name ?? [],
-    description: Array.isArray(first_sentence)
-      ? first_sentence.join(" ")
-      : first_sentence ?? "",
+    description: first_sentence?.[0] ?? "",
   }));
 };
