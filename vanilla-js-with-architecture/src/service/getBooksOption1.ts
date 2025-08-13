@@ -1,4 +1,4 @@
-import { GetBooksPort } from "../domain/ports";
+import { GetBooksPort } from "../domain/Book";
 
 // Option 1
 const API_URL_1 = "https://www.googleapis.com/books/v1/volumes?q=";

@@ -1,4 +1,4 @@
-import { GetBooksPort } from "../domain/ports";
+import { GetBooksPort } from "../domain/Book";
 
 const API_URL_2 = "https://openlibrary.org/search.json?q=";
 

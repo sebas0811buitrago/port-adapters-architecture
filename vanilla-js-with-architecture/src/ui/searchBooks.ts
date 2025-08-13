@@ -1,5 +1,5 @@
 import { Book, searchSchema } from "../domain/Book";
-import { getBooksOption1 } from "../service/getBooksOption1";
+// import { getBooksOption1 } from "../service/getBooksOption1";
 import { getBooksOption2 } from "../service/getBooksOption2";
 
 function displayBooks(books: Book[] = []) {

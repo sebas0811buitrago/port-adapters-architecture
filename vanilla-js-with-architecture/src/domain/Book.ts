@@ -9,3 +9,5 @@ export interface Book {
 export type SearchText = string;
 
 export const searchSchema = z.string();
+
+export type GetBooksPort = (search: SearchText) => Promise<Book[]>;
