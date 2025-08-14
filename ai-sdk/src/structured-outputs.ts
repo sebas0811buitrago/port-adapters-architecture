@@ -1,18 +1,7 @@
 import { z } from "zod";
 
 import { generateObject } from "ai";
-
-import "dotenv/config";
-import { createAnthropic } from "@ai-sdk/anthropic";
-
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-if (!ANTHROPIC_API_KEY) {
-  throw new Error("ANTHROPIC_API_KEY is not set");
-}
-
-const anthropic = createAnthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+import { anthropicModel } from "./models";
 
 const schema = z.object({
   recipe: z.object({
@@ -39,7 +28,7 @@ export const createRecipe = async (prompt: string) => {
   //   } as const);
 
   const { object } = await generateObject({
-    model: anthropic("claude-3-5-sonnet-20241022"),
+    model: anthropicModel,
     schema,
     prompt,
     system:

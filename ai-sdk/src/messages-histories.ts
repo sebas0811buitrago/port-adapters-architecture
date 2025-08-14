@@ -3,16 +3,7 @@ import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import { once } from "node:events";
 import { createAnthropic } from "@ai-sdk/anthropic";
-import "dotenv/config";
-
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-if (!ANTHROPIC_API_KEY) {
-  throw new Error("ANTHROPIC_API_KEY is not set");
-}
-
-const anthropic = createAnthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+import { anthropicModel } from "./models";
 
 //example
 
@@ -33,7 +24,7 @@ export const startServer = async () => {
     const messages: ModelMessage[] = await ctx.req.json();
 
     const result = await generateText({
-      model: anthropic("claude-sonnet-4-20250514"),
+      model: anthropicModel,
       messages,
     });
 

@@ -1,22 +1,9 @@
-import "dotenv/config";
-
-import { createAnthropic } from "@ai-sdk/anthropic";
-import { generateText, streamText } from "ai";
-
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-if (!ANTHROPIC_API_KEY) {
-  throw new Error("ANTHROPIC_API_KEY is not set");
-}
-
-const anthropic = createAnthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
-
-const model = anthropic("claude-sonnet-4-20250514");
+import { generateText } from "ai";
+import { anthropicModel } from "./models";
 
 const summarizeText = async (prompt: string) => {
   const { text } = await generateText({
-    model,
+    model: anthropicModel,
     prompt,
     // another option to do it
     // messages: [
