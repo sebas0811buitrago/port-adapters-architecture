@@ -1,8 +1,10 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { mcpClient, transportClient } from "./client";
-import { generateText, ToolSet } from "ai";
+import { generateText, jsonSchema, stepCountIs, tool, ToolSet } from "ai";
 import { input } from "@inquirer/prompts";
 import { Tool } from "@modelcontextprotocol/sdk/types";
+import "dotenv/config";
+import z from "zod";
 
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 if (!ANTHROPIC_API_KEY) {
@@ -15,45 +17,78 @@ const anthropic = createAnthropic({
 
 const model = anthropic("claude-sonnet-4-20250514");
 
+//  parameters: {
+//           type: "object",
+//           properties: Object.entries(tool.inputSchema).reduce(
+//             (props, [key, schema]) => ({
+//               ...props,
+//               [key]: {
+//                 type:
+//                   (schema as any)?._def?.typeName === "ZodNumber"
+//                     ? "number"
+//                     : "string",
+//                 description: `${key} parameter`,
+//               },
+//             }),
+//             {}
+//           ),
+//           required: Object.keys(tool.inputSchema),
+//         }
+
+// tools: tools.reduce((obj, tool) => ({
+//   ...obj,
+//   [tool.name]: {
+//     description: tool.description,
+//     inputSchema: z.object({}),
+
+//     execute: async (args: Record<string, any>) => {
+//       return await mcpClient.callTool({
+//         name: tool.name,
+//         arguments: args,
+//       });
+//     },
+//   },
+// })),
+
 async function handleQuery(tools: Tool[]) {
   const query = await input({ message: "Enter your query" });
 
-  const { text, toolResults } = await generateText({
+  const { text, toolResults, steps } = await generateText({
     model,
     prompt: query,
-    tools: tools.reduce(
-      (obj, tool) => ({
-        ...obj,
-        [tool.name]: {
-          description: tool.description,
-          parameters: {
-            type: "object",
-            properties: Object.entries(tool.inputSchema).reduce(
-              (props, [key, schema]) => ({
-                ...props,
-                [key]: {
-                  type:
-                    (schema as any)?._def?.typeName === "ZodNumber"
-                      ? "number"
-                      : "string",
-                  description: `${key} parameter`,
-                },
-              }),
-              {}
-            ),
-            required: Object.keys(tool.inputSchema),
+    stopWhen: stepCountIs(5),
+    tools: {
+      bmiCalculator: tool({
+        description: "Get BMI",
+        inputSchema: jsonSchema({
+          type: "object",
+          properties: {
+            height: { type: "number" },
+            weight: { type: "number" },
           },
-          execute: async (args: Record<string, any>) => {
-            return await mcpClient.callTool({
-              name: tool.name,
-              arguments: args,
-            });
-          },
-        },
+          required: ["height", "weight"],
+          additionalProperties: false,
+          $schema: "http://json-schema.org/draft-07/schema#",
+        }),
+        execute: async ({
+          height,
+          weight,
+        }: {
+          height: number;
+          weight: number;
+        }) => ({
+          height,
+          weight,
+        }),
       }),
-      {} as ToolSet
-    ),
+    },
   });
+
+  console.dir(steps[0]?.toolCalls, {
+    depth: 10,
+  });
+
+  console.dir(steps[0]?.toolResults, { depth: null });
 
   console.log(
     // @ts-expect-error
@@ -62,13 +97,16 @@ async function handleQuery(tools: Tool[]) {
 }
 
 async function main() {
+  console.log("main");
   await mcpClient.connect(transportClient);
 
   const [{ tools }] = await Promise.all([mcpClient.listTools()]);
 
-  console.log("server", { tools });
+  console.dir(tools, {
+    depth: 5,
+  });
 
-  handleQuery(tools);
+  await handleQuery(tools);
 }
 
 main();
