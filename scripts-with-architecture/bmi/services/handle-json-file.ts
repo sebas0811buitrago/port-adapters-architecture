@@ -1,6 +1,15 @@
 import fs from "fs";
-import path from "path";
 
+const path = require("path");
+const os = require("os");
+
+const RECORDS_FILE_PATH = path.join(
+  os.homedir(),
+  "Documents/learning/port-adapters-architecture/scripts-with-architecture/",
+  "bmi",
+  "services",
+  "bmi-records.json"
+);
 export interface BMIFileRecord {
   Id: string;
   Weight: number;
@@ -9,7 +18,12 @@ export interface BMIFileRecord {
   Timestamp: string;
 }
 
-const RECORDS_FILE_PATH = path.join(__dirname, "bmi-records.json");
+// const RECORDS_FILE_PATH = path.join(
+//   "/Users/sebastian.buitrago/Documents/learning/port-adapters-architecture/scripts-with-architecture/",
+//   "bmi",
+//   "services",
+//   "bmi-records.json"
+// );
 
 /**
  * Generates a unique ID for BMI records
@@ -76,7 +90,7 @@ export function saveBMIRecord(record: {
     return newRecord;
   } catch (error) {
     console.error("Error saving BMI record:", error);
-    throw new Error("Failed to save BMI record");
+    throw new Error(`Failed to save BMI record ${RECORDS_FILE_PATH}`);
   }
 }
 

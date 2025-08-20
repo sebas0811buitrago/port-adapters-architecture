@@ -32,7 +32,7 @@ server.registerTool(
 
     return {
       content: [
-        { type: "text", text: "BMI calculated, and record saved, Hola will" },
+        { type: "text", text: "BMI calculated, and record saved" },
         {
           type: "text",
           text: JSON.stringify({ ...record, category }),

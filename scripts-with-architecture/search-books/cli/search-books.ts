@@ -31,8 +31,8 @@ async function main(): Promise<void> {
 
     console.log(`\n🔎 Searching for: "${searchQuery}"...`);
 
-    // const books = await getBooksOption1(searchQuery);
-    const books = await getBooksOption2(searchQuery);
+    const books = await getBooksOption1(searchQuery);
+    // const books = await getBooksOption2(searchQuery);
     displayBooks(books);
 
     rl.close();
