@@ -11,7 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "search-books": "ts-node search-books/cli/search-books.ts",
     "add-numbers": "tsx add-numbers/add-numbers.ts",
-    "bmi": "ts-node bmi/cli/bmi-calculator.ts"
+    "bmi": "ts-node bmi/cli/bmi-calculator.ts",
+    "bmi:api": "tsx bmi/api/start-server.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,10 +25,12 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^2.0.1",
+    "@hono/node-server": "^1.19.0",
     "@inquirer/prompts": "^7.8.1",
     "@modelcontextprotocol/sdk": "^1.17.2",
     "ai": "^5.0.9",
     "dotenv": "^17.2.1",
+    "hono": "^4.9.2",
     "tsx": "^4.20.3",
     "zod": "^3.25.76"
   }
