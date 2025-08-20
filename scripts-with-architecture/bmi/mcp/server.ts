@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { bmiWeightCategory, calculateBMI } from "../domain/bmi";
+import { bmiWeightCategory, calculateBMI, weightValidation, heightValidation } from "../domain/bmi";
 import { createRecord } from "../services/create-record";
 
 // Create an MCP server
@@ -20,6 +20,24 @@ server.registerTool(
     inputSchema: { height: z.number(), weight: z.number() },
   },
   async ({ height, weight }) => {
+    const weightValidationResult = weightValidation(weight);
+    if (!weightValidationResult.success) {
+      return {
+        content: [
+          { type: "text", text: `Validation Error: ${weightValidationResult.message}` },
+        ],
+      };
+    }
+
+    const heightValidationResult = heightValidation(height);
+    if (!heightValidationResult.success) {
+      return {
+        content: [
+          { type: "text", text: `Validation Error: ${heightValidationResult.message}` },
+        ],
+      };
+    }
+
     const bmi = calculateBMI({ height, weight });
 
     const category = bmiWeightCategory(bmi);
