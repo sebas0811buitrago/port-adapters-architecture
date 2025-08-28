@@ -1,7 +1,8 @@
 import * as readline from "readline";
 import { displayBooks } from "./display-books";
-import { getBooksOption2 } from "../service/get-books-option-2";
 import { getBooksOption1 } from "../service/get-books-option-1";
+import { getBooksOption2 } from "../service/get-books-option-2";
+import { isValidSearchTerm } from "../domain/book";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -19,11 +20,11 @@ function askQuestion(question: string): Promise<string> {
 async function main(): Promise<void> {
   try {
     console.log("🔍 Welcome to the Book Search CLI!");
-    console.log("Search for books using the Google Books API\n");
+    console.log("Search for books:");
 
     const searchQuery = await askQuestion("Enter your search query: ");
 
-    if (!searchQuery.trim()) {
+    if (!isValidSearchTerm(searchQuery)) {
       console.log("❌ Please enter a valid search query.");
       rl.close();
       return;

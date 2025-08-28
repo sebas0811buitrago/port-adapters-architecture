@@ -1,29 +1,33 @@
 import { GetBooksPort } from "../domain/book";
 
-const API_URL_2 = "https://openlibrary.org/search.json?q=";
+const API_URL_2 = "https://www.googleapis.com/books/v1/volumes?q=";
 
-interface GetBooksOpenLibraryAPisResponse {
-  docs: {
-    title: string;
-    author_name?: string[];
-    first_sentence?: string[];
+interface GetBooksGoogleAPisResponse {
+  items: {
+    volumeInfo: {
+      title: string;
+      authors?: string[];
+      description?: string;
+    };
   }[];
 }
 
-const getBooksOpenLibraryService = async ({ query }: { query: string }) => {
+const getBooksGoogleService = async ({ query }: { query: string }) => {
   const response = await fetch(`${API_URL_2}${encodeURIComponent(query)}`).then(
     (response) => response.json()
   );
 
-  return response as GetBooksOpenLibraryAPisResponse;
+  return response as GetBooksGoogleAPisResponse;
 };
 
-export const getBooksOption2: GetBooksPort = async (searchTerm) => {
-  const response = await getBooksOpenLibraryService({ query: searchTerm });
+// implement adapter pattern
 
-  return response.docs.map(({ title, author_name, first_sentence }) => ({
-    title,
-    authors: author_name ?? [],
-    description: first_sentence?.[0] ?? "",
+export const getBooksOption2: GetBooksPort = async (searchTerm) => {
+  const response = await getBooksGoogleService({ query: searchTerm });
+
+  return response.items.map(({ volumeInfo }) => ({
+    title: volumeInfo.title,
+    authors: volumeInfo.authors ?? [],
+    description: volumeInfo.description ?? "",
   }));
 };
