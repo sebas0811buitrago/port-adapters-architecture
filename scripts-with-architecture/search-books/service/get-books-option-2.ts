@@ -21,7 +21,6 @@ const getBooksGoogleService = async ({ query }: { query: string }) => {
 };
 
 // implement adapter pattern
-
 export const getBooksOption2: GetBooksPort = async (searchTerm) => {
   const response = await getBooksGoogleService({ query: searchTerm });
 

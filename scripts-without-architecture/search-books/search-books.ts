@@ -1,29 +1,16 @@
 import * as readline from "readline";
 
-// FIRST OPTION ===================================
-type GetBooksGoogleAPisResponse = {
-  items: {
-    volumeInfo: {
-      title: string;
-      authors?: string[];
-      description?: string;
-    };
+// FIRST OPTION ==================================
+
+interface GetBooksOpenLibraryAPisResponse {
+  docs: {
+    title: string;
+    author_name?: string[];
+    first_sentence?: string[];
   }[];
-};
+}
 
-const API_URL_1 = "https://www.googleapis.com/books/v1/volumes?q=";
-
-// SECOND OPTION ==================================
-
-// interface GetBooksOpenLibraryAPisResponse {
-//   docs: {
-//     title: string;
-//     author_name?: string[];
-//     first_sentence?: string[];
-//   }[];
-// }
-
-// const API_URL_2 = "https://openlibrary.org/search.json?q=";
+const API_URL_1 = "https://openlibrary.org/search.json?q=";
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -38,7 +25,9 @@ function askQuestion(question: string): Promise<string> {
   });
 }
 
-async function searchBooks(query: string): Promise<GetBooksGoogleAPisResponse> {
+async function searchBooks(
+  query: string
+): Promise<GetBooksOpenLibraryAPisResponse> {
   try {
     const response = await fetch(`${API_URL_1}${encodeURIComponent(query)}`);
 
@@ -47,36 +36,36 @@ async function searchBooks(query: string): Promise<GetBooksGoogleAPisResponse> {
     }
 
     const data = await response.json();
-    return data as GetBooksGoogleAPisResponse;
+    return data as GetBooksOpenLibraryAPisResponse;
   } catch (error) {
     throw new Error(`Failed to fetch books: ${error}`);
   }
 }
 
-function displayBooks(books: GetBooksGoogleAPisResponse): void {
-  if (!books.items || books.items.length === 0) {
+function displayBooks(books: GetBooksOpenLibraryAPisResponse): void {
+  if (!books.docs || books.docs.length === 0) {
     console.log("\n❌ No books found for your search query.");
     return;
   }
 
-  console.log(`\n📚 Found ${books.items.length} book(s):\n`);
+  console.log(`\n📚 Found ${books.docs.length} book(s):\n`);
 
-  books.items.forEach((book, index) => {
+  books.docs.forEach((book, index) => {
     console.log(`📖 Book ${index + 1}:`);
-    console.log(`   Title: ${book.volumeInfo.title}`);
+    console.log(`   Title: ${book.title}`);
 
-    if (book.volumeInfo.authors && book.volumeInfo.authors.length > 0) {
-      console.log(`   Authors: ${book.volumeInfo.authors.join(", ")}`);
+    if (book.author_name && book.author_name.length > 0) {
+      console.log(`   Authors: ${book.author_name.join(", ")}`);
     } else {
       console.log(`   Authors: Unknown`);
     }
 
-    if (book.volumeInfo.description) {
+    if (book.first_sentence && book.first_sentence.length > 0) {
       // Truncate description if it's too long
       const description =
-        book.volumeInfo.description.length > 200
-          ? book.volumeInfo.description.substring(0, 200) + "..."
-          : book.volumeInfo.description;
+        book.first_sentence[0].length > 200
+          ? book.first_sentence[0].substring(0, 200) + "..."
+          : book.first_sentence[0];
       console.log(`   Description: ${description}`);
     } else {
       console.log(`   Description: No description available`);
@@ -89,7 +78,7 @@ function displayBooks(books: GetBooksGoogleAPisResponse): void {
 async function main(): Promise<void> {
   try {
     console.log("🔍 Welcome to the Book Search CLI!");
-    console.log("Search for books using the Google Books API\n");
+    console.log("Search for books:");
 
     const searchQuery = await askQuestion("Enter your search query: ");
 
@@ -111,4 +100,5 @@ async function main(): Promise<void> {
   }
 }
 
+console.log("hola");
 main();
