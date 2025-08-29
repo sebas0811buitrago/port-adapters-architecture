@@ -169,7 +169,7 @@ Integration with AI systems like Claude:
          "type": "stdio",
          "command": "node",
          "args": [
-           "/absolute/path/to/port-adapters-architecture/scripts-with-architecture/dist/bmi/mcp/server.js"
+           "<absolute-path>/port-adapters-architecture/scripts-with-architecture/dist/bmi/mcp/server.js"
          ]
        }
      }
