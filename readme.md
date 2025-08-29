@@ -33,7 +33,29 @@ Start the BMI API server:
 npm run bmi:api
 ```
 
-Run the BMI application:
+Build the mcp server
+
+```bash
+npm run build
+```
+
+mcp config file:
+
+```json
+{
+  "mcpServers": {
+    "mcp-bmi": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "<absolute-path>/port-adapters-architecture/scripts-with-architecture/dist/bmi/mcp/server.js"
+      ]
+    }
+  }
+}
+```
+
+Run the BMI application in the terminal:
 
 ```bash
 npm run bmi
