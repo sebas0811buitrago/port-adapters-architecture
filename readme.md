@@ -27,11 +27,7 @@ npm run search-books
 
 #### BMI Application
 
-Start the BMI API server:
-
-```bash
-npm run bmi:api
-```
+#### MCP
 
 Build the mcp server
 
@@ -55,6 +51,15 @@ mcp config file:
 }
 ```
 
+### BMI Calculation Prompt
+
+**Example calculation request:**
+
+Calculate my BMI with this data:
+
+- **Weight:** 200 lb
+- **Height:** 5.5 ft
+
 Run the BMI application in the terminal:
 
 ```bash
@@ -62,6 +67,12 @@ npm run bmi
 ```
 
 ### API Usage
+
+Start the BMI API server:
+
+```bash
+npm run bmi:api
+```
 
 #### Create a New BMI Record
 
@@ -72,15 +83,6 @@ curl -X POST http://localhost:3000/records \
   -H "Content-Type: application/json" \
   -d '{"weight": 70, "height": 1.75}'
 ```
-
-### BMI Calculation Prompt
-
-**Example calculation request:**
-
-Calculate my BMI with this data:
-
-- **Weight:** 200 lb
-- **Height:** 5.5 ft
 
 ---
 
